@@ -57,33 +57,30 @@ class LinkedList
     # at method already has guard clause in case size = 0
   end
 
-  def contains?(value)
-    return false if size.zero?
-
-    current_node = head
-    (size - 1).times do
-      return true if current_node.value == value
-      current_node = current_node.next_node
-    end
-    return current_node.value == value
-  end
-
-  def find(value)
-    return if size.zero?
-
+  def list_each_with_index(default_output = nil)
+    return default_output if size.zero?
+    
     current_node, current_index = head, 0
-    (size - 1).times do
-      return current_index if current_node.value == value
+    size.times do
+      yield current_node, current_index
       current_node = current_node.next_node
       current_index += 1
     end
-    return size - 1 if current_node.value == value
-  end 
+    return default_output
+  end
+  
+  def contains?(value)
+    list_each_with_index(false) { |node, index| return true if node.value == value }
+  end
 
+  def find(value)
+    list_each_with_index(nil) { |node, index| return index if node.value == value }
+  end
+    
   def to_s
     output_string = ''
     remaining_elements = size
-    current_node = head unless size.zero?
+    current_node = head
     size.times do
       output_string += "( #{current_node.value} ) -> "
       current_node = current_node.next_node
@@ -110,22 +107,14 @@ end
 # The Node class contains methods for nodes of a linked list
 class Node
     
-    
-    
     attr_accessor :value, :next_node
     
     def initialize(value = nil, next_node = nil)
         @value = value
         @next_node = next_node
     end
-
-    def self.how_many_nodes
-        @@how_many_nodes
-    end
-
 end
 
-my_list = LinkedList.new([1,2,3])
-my_list.pop
-my_list.prepend('prepended')
-puts my_list
+my_list = LinkedList.new([1,2,3,4])
+p my_list.find(1)
+# puts my_list.contains?(3)
