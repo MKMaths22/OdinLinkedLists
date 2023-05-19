@@ -15,13 +15,6 @@ class LinkedList
     end
   end
 
-  def prepend(value)
-    added_node = Node.new(value, head)
-    # if list was empty, head is nil so the added_node has correct next_node value
-    change_head(added_node)
-    increment_size
-  end
-
   def size
     @size
   end
@@ -38,13 +31,6 @@ class LinkedList
     index.times { current_node = current_node.next_node }
     # head has index zero, so we need to move to the next node index times
     current_node
-  end
-
-  def append(value)
-    node_to_add = Node.new(value)
-    size.zero? ? change_head(node_to_add) : tail.next_node = node_to_add
-    # either there was an empty list before or there was a tail node but not both
-    increment_size
   end
 
   def pop
@@ -91,7 +77,25 @@ class LinkedList
     output_string + 'nil'
   end
   
-  
+  def insert_at(value, index)
+    return 'Error, index not valid' unless (0..size).include?(index) && index.integer?
+    # checks index provided will fit in the given list
+
+    node_to_add = Node.new(value, at(index))
+    # if index = size, at(index) returns nil which is correct
+
+    index.zero? ? change_head(node_to_add) : at(index - 1).next_node = node_to_add
+    # either we insert a new head or previous node has link changed but not both
+    increment_size
+  end
+
+  def prepend(value)
+    insert_at(value, 0)
+  end
+
+  def append(value)
+    insert_at(value, size)
+  end
   
   private
   
