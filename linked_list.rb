@@ -15,6 +15,11 @@ class LinkedList
     end
   end
 
+  def valid_index(index, num)
+    (0..num).include?(index) && index.integer?
+    # checks if index = 0, 1, .... or num
+  end
+
   def size
     @size
   end
@@ -24,7 +29,7 @@ class LinkedList
   end
 
   def at(index)
-    return nil unless (0..size - 1).include?(index) && index.integer?
+    return nil unless valid_index(index, size - 1)
     # makes sure the index supplied is valid, return nil otherwise
 
     current_node = @head
@@ -68,7 +73,7 @@ class LinkedList
   end
   
   def insert_at(value, index)
-    return 'Error, index not valid' unless (0..size).include?(index) && index.integer?
+    return 'Error, index not valid' unless valid_index(index, size)
     # checks index provided will fit in the given list
 
     node_to_add = Node.new(value, at(index))
@@ -80,7 +85,7 @@ class LinkedList
   end
 
   def remove_at(index)
-    return unless (0..size - 1).include?(index) && index.integer?
+    return unless valid_index(index, size - 1)
     # checks index provided appears in the given list
 
     removed_node = at(index)
@@ -131,7 +136,6 @@ class Node
     end
 end
 
-my_list = LinkedList.new([1,2,3,4])
-p my_list.pop
-my_list.prepend(0)
-puts my_list
+ my_list = LinkedList.new([1,2,4,5])
+ my_list.remove_at(0)
+ puts my_list.find(4)
