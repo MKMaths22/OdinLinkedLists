@@ -136,3 +136,9 @@ end
 # my_list = LinkedList.new([1, 2, 4, 5])
 # my_list.remove_at(0)
 # puts my_list.find(4)
+# p my_list.remove_at(0)
+# p my_list.remove_at(0)
+# p my_list.remove_at(2)
+# p my_list.remove_at(1)
+# my_list.append(10)
+# puts my_list
