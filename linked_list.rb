@@ -33,16 +33,6 @@ class LinkedList
     current_node
   end
 
-  def pop
-    return if size.zero?
-
-    popped_node = tail
-    decrement_size
-    tail.next_node = nil unless size.zero?
-    # since size was decremented, this tail is the tail of the reduced list, which we have to check in case it is empty
-    popped_node
-  end
-
   def tail
     at(size - 1)
     # at method already has guard clause in case size = 0
@@ -89,12 +79,29 @@ class LinkedList
     increment_size
   end
 
+  def remove_at(index)
+    return unless (0..size - 1).include?(index) && index.integer?
+    # checks index provided appears in the given list
+
+    removed_node = at(index)
+    index.zero? ? change_head(at(1)) : at(index - 1).next_node = removed_node.next_node
+    # if list had only one node, at(1) is nil so head becomes nil.
+    # similarly if index = size - 1 the removed node had next_node = nil so this
+    # property transfers to the previous node
+    decrement_size
+    removed_node
+  end
+
   def prepend(value)
     insert_at(value, 0)
   end
 
   def append(value)
     insert_at(value, size)
+  end
+
+  def pop
+    remove_at(size - 1)
   end
   
   private
