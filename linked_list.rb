@@ -10,6 +10,7 @@ class LinkedList
     values_array.each_with_index do |value, index|
         current_node = Node.new(value)
         index.zero? ? change_head(current_node) : previous_node.next_node = current_node
+        # either we are dealing with the head node or there is a previous node, but not both
         previous_node = current_node
     end
   end
@@ -31,24 +32,28 @@ class LinkedList
 
   def at(index)
     return nil unless (0..size - 1).include?(index) && index.integer?
+    # makes sure the index supplied is valid, return nil otherwise
 
     current_node = @head
     index.times { current_node = current_node.next_node }
+    # head has index zero, so we need to move to the next node index times
     current_node
   end
 
   def append(value)
-    added_node = Node.new(value)
-    size.zero? ? change_head(added_node) : at(size - 1).next_node = added_node
+    node_to_add = Node.new(value)
+    size.zero? ? change_head(node_to_add) : tail.next_node = node_to_add
+    # either there was an empty list before or there was a tail node but not both
     increment_size
   end
 
   def pop
     return if size.zero?
 
-    popped_node = at(size - 1)
+    popped_node = tail
     decrement_size
-    at(size - 1).next_node = nil unless size.zero?
+    tail.next_node = nil unless size.zero?
+    # since size was decremented, this tail is the tail of the reduced list, which we have to check in case it is empty
     popped_node
   end
 
@@ -71,11 +76,13 @@ class LinkedList
   def contains?(value)
     list_each_with_index(false) { |node, index| return true if node.value == value }
     false
+    # returns false only if none of the nodes had the required value
   end
 
   def find(value)
     list_each_with_index(nil) { |node, index| return index if node.value == value }
     nil
+    # returns nil if list is empty or if no node had the required value
   end
     
   def to_s
@@ -83,6 +90,8 @@ class LinkedList
     list_each_with_index { |node| output_string += "( #{node.value} ) -> " }
     output_string + 'nil'
   end
+  
+  
   
   private
   
@@ -112,6 +121,6 @@ class Node
 end
 
 my_list = LinkedList.new([1,2,3,4])
-# p my_list.find(5)
-# puts my_list.contains?(5)
+p my_list.pop
+my_list.prepend(0)
 puts my_list
