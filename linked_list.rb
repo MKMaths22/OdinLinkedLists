@@ -18,13 +18,13 @@ class LinkedList
     end
   end
 
-  def valid_index(index, num)
+  def valid_index?(index, num)
     (0..num).include?(index) && index.integer?
     # checks if index = 0, 1, .... or num
   end
 
   def at(index)
-    return nil unless valid_index(index, size - 1)
+    return nil unless valid_index?(index, size - 1)
 
     # makes sure the index supplied is valid, return nil otherwise
 
@@ -70,7 +70,7 @@ class LinkedList
   end
 
   def insert_at(value, index)
-    return 'Error, index not valid' unless valid_index(index, size)
+    return 'Error, index not valid' unless valid_index?(index, size)
 
     # checks index provided will fit in the given list
 
@@ -83,7 +83,7 @@ class LinkedList
   end
 
   def remove_at(index)
-    return unless valid_index(index, size - 1)
+    return unless valid_index?(index, size - 1)
 
     # checks index provided appears in the given list
 
