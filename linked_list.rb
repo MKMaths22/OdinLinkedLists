@@ -80,12 +80,7 @@ class LinkedList
     
   def to_s
     output_string = ''
-    remaining_elements = size
-    current_node = head
-    size.times do
-      output_string += "( #{current_node.value} ) -> "
-      current_node = current_node.next_node
-    end
+    list_each_with_index { |node| output_string += "( #{node.value} ) -> " }
     output_string + 'nil'
   end
   
@@ -117,5 +112,6 @@ class Node
 end
 
 my_list = LinkedList.new([1,2,3,4])
-p my_list.find(1)
-# puts my_list.contains?(3)
+# p my_list.find(5)
+# puts my_list.contains?(5)
+puts my_list
