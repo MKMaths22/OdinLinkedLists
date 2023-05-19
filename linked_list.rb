@@ -66,15 +66,16 @@ class LinkedList
       current_node = current_node.next_node
       current_index += 1
     end
-    return default_output
   end
   
   def contains?(value)
     list_each_with_index(false) { |node, index| return true if node.value == value }
+    false
   end
 
   def find(value)
     list_each_with_index(nil) { |node, index| return index if node.value == value }
+    nil
   end
     
   def to_s
